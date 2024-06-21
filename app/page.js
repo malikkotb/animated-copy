@@ -47,24 +47,26 @@ export default function Home() {
         scrollTrigger: {
           trigger: text,
           start: "top 80%",
-          end: "bottom center",
+          end: "bottom 50%",
           // scrub: true,
           toggleActions: "play play none reverse",
         },
       });
 
-      tl.from(img, {
+      tl.from(textSplit.chars, {
+        y: 50,
         opacity: 0,
-        y: 100,
-        duration: 2,
-      }).from(
-        textSplit.chars,
+        stagger: 0.005,
+        ease: "power2.out",
+        duration: 1,
+      });
+
+      tl.from(
+        img,
         {
-          duration: 1,
-          y: 50,
-          opacity: 0,
-          stagger: 0.005,
-          ease: "power2.out",
+          autoAlpha: 0,
+          y: 100,
+          duration: 2,
         },
         "<"
       );
@@ -83,7 +85,7 @@ export default function Home() {
           </p>
         </div>
         <div className="opacity-50" ref={addToImageRefs}>
-          <Image src="/2.png" alt="supporting image" width={300} height={300} />
+          <Image className="invisible" src="/2.png" alt="supporting image" width={300} height={300} />
         </div>
       </section>
       <section>
@@ -96,7 +98,7 @@ export default function Home() {
           </p>
         </div>
         <div className="opacity-50" ref={addToImageRefs}>
-          <Image src="/3.png" alt="supporting image" width={300} height={300} />
+          <Image className="invisible" src="/3.png" alt="supporting image" width={300} height={300} />
         </div>
       </section>
       <section>
@@ -109,7 +111,7 @@ export default function Home() {
           </p>
         </div>
         <div className="opacity-50" ref={addToImageRefs}>
-          <Image src="/1.png" alt="supporting image" width={300} height={300} />
+          <Image className="invisible" src="/1.png" alt="supporting image" width={300} height={300} />
         </div>
       </section>
     </main>
