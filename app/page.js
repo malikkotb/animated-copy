@@ -5,6 +5,7 @@ import SplitType from "split-type";
 import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 gsap.registerPlugin(useGSAP);
 
@@ -21,36 +22,52 @@ export default function Home() {
   }, []);
 
   const mainRef = useRef(null);
-  const firstRef = useRef(null);
-  const secondRef = useRef(null);
-  const thirdRef = useRef(null);
+
+  const textRefs = useRef([]);
+  const imageRefs = useRef([]);
+
+  const addToRefs = (refsArray) => (el) => {
+    if (el && !refsArray.current.includes(el)) {
+      refsArray.current.push(el);
+    }
+  };
+
+  const addToTextRefs = addToRefs(textRefs);
+  const addToImageRefs = addToRefs(imageRefs);
 
   useGSAP(() => {
-    const firstText = new SplitType(firstRef.current);
-    const secondText = new SplitType(secondRef.current);
-    const thirdText = new SplitType(thirdRef.current);
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.set(textRefs.current, { autoAlpha: 1 }); // for FOUC stuff
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: mainRef.current,
-        start: "top 20%",
-        end: "bottom 50%",
-        markers: true,
-        // scrub: 1,
-      },
-      defaults: { ease: "power4.inOut" },
-    });
+    textRefs.current.forEach((text, index) => {
+      const img = imageRefs.current[index];
+      const textSplit = new SplitType(text);
 
-    gsap.set(firstRef.current, { autoAlpha: 1 }); // for FOUC stuff
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: text,
+          start: "top 80%",
+          end: "bottom center",
+          // scrub: true,
+          toggleActions: "play play none reverse",
+        },
+      });
 
-    // add scrolltrigger to timeline and then use splittype to animate text
-
-    tl.from(firstText.words, {
-      duration: 1,
-      y: 40,
-      opacity: 0,
-      skewX: -10,
-      stagger: 0.03,
+      tl.from(img, {
+        opacity: 0,
+        y: 100,
+        duration: 2,
+      }).from(
+        textSplit.chars,
+        {
+          duration: 1,
+          y: 50,
+          opacity: 0,
+          stagger: 0.005,
+          ease: "power2.out",
+        },
+        "<"
+      );
     });
   });
 
@@ -59,39 +76,39 @@ export default function Home() {
       <section>
         <div className="absolute z-10">
           <span>001</span>
-          <p ref={firstRef}>
+          <p ref={addToTextRefs}>
             The happiness of your life depends upon the quality of your thoughts: therefore, guard accordingly, and take
             care that you entertain no notions unsuitable to virtue and reasonable nature. Do not be disturbed at
             trifles, or at accidents common or unavoidable.
           </p>
         </div>
-        <div className="opacity-50">
+        <div className="opacity-50" ref={addToImageRefs}>
           <Image src="/2.png" alt="supporting image" width={300} height={300} />
         </div>
       </section>
       <section>
         <div className="absolute z-10">
-          <span>001</span>
-          <p ref={firstRef}>
+          <span>002</span>
+          <p ref={addToTextRefs}>
             The best revenge is to be unlike him who performed the injury. To engage in retaliation is to mirror the
             actions of those who wronged you, perpetuating a cycle of harm. Instead, rise above and show through your
             actions a higher standard of virtue and character.
           </p>
         </div>
-        <div className="opacity-50">
+        <div className="opacity-50" ref={addToImageRefs}>
           <Image src="/3.png" alt="supporting image" width={300} height={300} />
         </div>
       </section>
       <section>
         <div className="absolute z-10">
-          <span>001</span>
-          <p ref={firstRef}>
+          <span>003</span>
+          <p ref={addToTextRefs}>
             Dwell on the beauty of life. Watch the stars, and see yourself running with them. Allow the wonder of the
             universe to inspire you, and let your connection to the vastness of existence fill you with a sense of
             purpose and awe.
           </p>
         </div>
-        <div className=" opacity-50">
+        <div className="opacity-50" ref={addToImageRefs}>
           <Image src="/1.png" alt="supporting image" width={300} height={300} />
         </div>
       </section>
