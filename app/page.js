@@ -64,7 +64,7 @@ export default function Home() {
       tl.from(
         img,
         {
-          autoAlpha: 0,
+          opacity: 0,
           y: 100,
           duration: 2,
         },
