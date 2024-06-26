@@ -48,7 +48,7 @@ export default function Home() {
           trigger: text,
           start: "top 80%",
           end: "bottom 50%",
-          // scrub: true,
+          // scrub: 2,
           toggleActions: "play play none reverse",
         },
       });
@@ -59,9 +59,7 @@ export default function Home() {
         stagger: 0.005,
         ease: "power2.out",
         duration: 1,
-      });
-
-      tl.from(
+      }).from(
         img,
         {
           opacity: 0,
@@ -85,7 +83,7 @@ export default function Home() {
           </p>
         </div>
         <div className="opacity-50" ref={addToImageRefs}>
-          <Image className="invisible" src="/2.png" alt="supporting image" width={300} height={300} />
+          <Image src="/2.png" alt="supporting image" width={300} height={300} />
         </div>
       </section>
       <section>
@@ -98,7 +96,7 @@ export default function Home() {
           </p>
         </div>
         <div className="opacity-50" ref={addToImageRefs}>
-          <Image className="invisible" src="/3.png" alt="supporting image" width={300} height={300} />
+          <Image src="/3.png" alt="supporting image" width={300} height={300} />
         </div>
       </section>
       <section>
@@ -111,7 +109,7 @@ export default function Home() {
           </p>
         </div>
         <div className="opacity-50" ref={addToImageRefs}>
-          <Image className="invisible" src="/1.png" alt="supporting image" width={300} height={300} />
+          <Image src="/1.png" alt="supporting image" width={300} height={300} />
         </div>
       </section>
     </main>
